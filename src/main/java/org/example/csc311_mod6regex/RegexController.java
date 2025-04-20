@@ -11,38 +11,27 @@ import java.util.regex.Pattern;
 
 public class RegexController {
     @FXML
-    private Label LNameRegexLabel;
-
-    @FXML
-    private Button addBtn;
-
-    @FXML
-    private TextField dateOfBirthField;
-
-    @FXML
-    private Label dobRegexLabel;
-
-    @FXML
-    private TextField emailField;
-
-    @FXML
-    private Label emailRegexLabel;
-
-    @FXML
     private TextField fNameField;
-
-    @FXML
-    private Label fNameRegexLabel;
-
     @FXML
     private TextField lNameField;
-
     @FXML
-    private Label zipCodeRegexLabel;
-
+    private TextField emailField;
+    @FXML
+    private TextField dateOfBirthField;
     @FXML
     private TextField zipcodeField;
-
+    @FXML
+    private Label FNameErrorLabel;
+    @FXML
+    private Label LNameErrorLabel;
+    @FXML
+    private Label emailErrorLabel;
+    @FXML
+    private Label dobErrorLabel;
+    @FXML
+    private Label zipCodeErrorLabel;
+    @FXML
+    private Button addBtn;
 
     private Pattern firstnameRegex;
     private Pattern lastNameRegex;
@@ -55,67 +44,166 @@ public class RegexController {
     private Matcher dateOfBirthMatcher;
     private Matcher zipCodeMatcher;
 
+    private boolean formCheck = true;
+    private int fieldFilledCount = 0;
+
+    /**
+     * This method contains all the regex patterns for each textField. It is also the initial caller for formManager and showButton.
+     */
     @FXML
     public void initialize() {
+
         firstnameRegex = Pattern.compile("^[A-Za-z]{2,25}$");
         lastNameRegex = Pattern.compile("^[A-Za-z]{2,25}$");
         emailRegex = Pattern.compile("^[A-Za-z0-9._%+-]+@farmingdale\\.edu$");
         dateOfBirthRegex = Pattern.compile("^\\d{2}/\\d{2}/\\d{4}$");
         zipCodeRegex = Pattern.compile("^\\d{5}$");
+
+        formManager();
+        showButton();
+        addBtn.setOpacity(.5);
+        addBtn.setDisable(true);
     }
 
+    /**
+     * this method handles the event of clicking the addBtn.
+     * @param event The clicking of addBtn
+     */
     @FXML
     private void handleAddBtn(ActionEvent event) {
+
         System.out.println("Add button clicked");
-        checkFields();
+        if (formCheck && fieldFilledCount >= 4) {
+            System.out.println("Form Filled");
+        }
 
     }
 
-    private boolean checkFields() {
-        boolean valid = true;
+    /**
+     * This method checks if at least 5 text fields have been populated and if formCheck has been flagged as false.
+     */
+    private void showButton() {
 
-        fNameMatcher = firstnameRegex.matcher(fNameField.getText());
-        if (!fNameMatcher.find()) {
-            fNameRegexLabel.setText("First name is not valid");
-            valid = false;
+        if (formCheck && fieldFilledCount >= 4) {
+            addBtn.setOpacity(1);
+            addBtn.setDisable(false);
+
+            System.out.println("Add button shwoing");
         } else {
-            fNameRegexLabel.setText("");
+            addBtn.setOpacity(.5);
+            addBtn.setDisable(true);
         }
 
-        lNameMatcher = lastNameRegex.matcher(lNameField.getText());
+    }
 
-        if (!lNameMatcher.find()) {
-            LNameRegexLabel.setText("Last name is not valid");
-            valid = false;
-        } else {
-            LNameRegexLabel.setText("");
+    /**
+     * This method handles the focus of the fields and call necessary methods to show\not show add button.
+     */
+    private void formManager() {
+
+        if (formCheck && fieldFilledCount >= 4) {
+            addBtn.setOpacity(1);
+            addBtn.setDisable(false);
         }
+        fNameField.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue) {
+                System.out.println("fNameField focused");
 
-        emailMatcher = emailRegex.matcher(emailField.getText());
-        if (!emailMatcher.find()) {
-            emailRegexLabel.setText("Email is not valid");
-            valid = false;
-        } else {
-            emailRegexLabel.setText("");
-        }
-        dateOfBirthMatcher = dateOfBirthRegex.matcher(dateOfBirthField.getText());
-        if (!dateOfBirthMatcher.find()) {
-            dobRegexLabel.setText("Date of birth is not valid");
-            valid = false;
-        } else {
-            dobRegexLabel.setText("");
-        }
-        zipCodeMatcher = zipCodeRegex.matcher(zipcodeField.getText());
-        if (!zipCodeMatcher.find()) {
-            zipCodeRegexLabel.setText("Zip code is not valid");
-            valid = false;
-        } else {
-            zipCodeRegexLabel.setText("");
-        }
+            } else {
+                System.out.println("fNameField not focused");
+                if (!newCheck(firstnameRegex, fNameMatcher, fNameField.getText())) {
+                    FNameErrorLabel.setText("First name is invalid");
+                    formCheck = false;
+                } else {
+                    FNameErrorLabel.setText("");
+                    formCheck = true;
+                    fieldFilledCount++;
+                }
+                showButton();
 
-        return false;
+            }
+        });
 
+        lNameField.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue) {
+                System.out.println("lNameField focused");
+            } else {
+                System.out.println("lNameField not focused");
+                if (!newCheck(lastNameRegex, lNameMatcher, lNameField.getText())) {
+                    LNameErrorLabel.setText("Last name is invalid");
+                    formCheck = false;
+                } else {
+                    LNameErrorLabel.setText("");
+                    formCheck = true;
+                    fieldFilledCount++;
+                }
+                showButton();
+            }
+        });
 
+        emailField.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue) {
+                System.out.println("emailField focused");
+            } else {
+                System.out.println("emailField not focused");
+                if (!newCheck(emailRegex, emailMatcher, emailField.getText())) {
+                    emailErrorLabel.setText("Email is invalid");
+                    formCheck = false;
+                } else {
+                    emailErrorLabel.setText("");
+                    formCheck = true;
+                    fieldFilledCount++;
+                }
+                showButton();
+            }
+        });
+
+        dateOfBirthField.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue) {
+                System.out.println("dateOfBirthField focused");
+            } else {
+                System.out.println("dateOfBirthField not focused");
+                if (!newCheck(dateOfBirthRegex, dateOfBirthMatcher, dateOfBirthField.getText())) {
+                    dobErrorLabel.setText("Date of birth is invalid");
+                    formCheck = false;
+                } else {
+                    dobErrorLabel.setText("");
+                    formCheck = true;
+                    fieldFilledCount++;
+                }
+                showButton();
+            }
+        });
+
+        zipcodeField.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue) {
+                System.out.println("zipCodeField focused");
+            } else {
+                System.out.println("zipCodeField not focused");
+                if (!newCheck(zipCodeRegex, zipCodeMatcher, zipcodeField.getText())) {
+                    zipCodeErrorLabel.setText("Zip code is invalid");
+                    formCheck = false;
+                } else {
+                    zipCodeErrorLabel.setText("");
+                    formCheck = true;
+                    fieldFilledCount++;
+                }
+                showButton();
+            }
+        });
+
+    }
+
+    /**
+     * @param pattern Regex pattern for the respective field
+     * @param matcher Matcher object that uses respective pattern
+     * @param string User inputted text from respective textField
+     * @return boolean according to string matching pattern
+     */
+    private boolean newCheck(Pattern pattern, Matcher matcher, String string) {
+
+        matcher = pattern.matcher(string);
+        return matcher.find();
     }
 
 }
