@@ -1,80 +1,49 @@
-# Regex Validation Application
+# Form Validation with JavaFX and RegEx
 
-A JavaFX application that demonstrates form validation using regular expressions (regex). This application validates user inputs for common fields such as name, email, date of birth, and zip code according to specified patterns.
-
-## Overview
-
-This application provides a simple user interface for submitting personal information with real-time validation feedback. Each input field is validated against a specific regex pattern, and validation errors are displayed to the user.
+This project demonstrates a form validation application built with JavaFX. It uses regular expressions to validate user input across multiple fields and provides real-time feedback to users.
 
 ## Features
 
-- First name and last name validation (2-25 alphabetic characters)
-- Email validation (must be a Farmingdale.edu email address)
-- Date of birth validation (MM/DD/YYYY format)
-- Zip code validation (5 digits)
-- Real-time feedback on validation errors
-
-## Requirements
-
-- Java JDK 17 or higher
-- JavaFX 17 or higher
-- Maven (optional, for dependency management)
+- Validates form fields using regex patterns:
+  - First and last names (2-25 characters, allows apostrophes)
+  - Email (must end with farmingdale.edu domain)
+  - Date of birth (MM/DD/YYYY format)
+  - Zip code (5 digits only)
+- Real-time validation feedback
+- Modern UI with custom styling
+- Submit button that activates only when form is valid
 
 ## Project Structure
 
-```
-src/
-├── main/
-│   ├── java/
-│   │   └── org/
-│   │       └── example/
-│   │           └── csc311_mod6regex/
-│   │               ├── RegexApplication.java
-│   │               └── RegexController.java
-│   └── resources/
-│       └── org/
-│           └── example/
-│               └── csc311_mod6regex/
-│                   └── hello-view.fxml
-```
+- `RegexApplication.java`: Main application class that launches the JavaFX application
+- `RegexController.java`: Controller class that handles form validation logic
+- `regex-app-view.fxml`: FXML file defining the UI layout
+- `style.css`: CSS file containing custom styling for the application
 
-## How to Run
+## CSS Styling
+
+The application uses a custom CSS theme with the following features:
+- Light blue background color
+- Modern button styling with gradient colors
+- Hover and click effects for buttons
+- Custom fonts and text colors
+- Error messages displayed in red
+
+## Requirements
+
+- Java 17 or higher
+- JavaFX 17 or higher
+
+## Setup and Running
 
 1. Clone the repository
-2. Make sure you have JavaFX configured in your project
-3. Run the `RegexApplication.java` file
-
-If using Maven, you can run the application with:
-```
-mvn javafx:run
-```
-
-## How It Works
-
-1. The application uses the MVC (Model-View-Controller) design pattern.
-2. The view is defined in `hello-view.fxml`.
-3. The controller logic is in `RegexController.java`.
-4. Regular expressions are defined in the controller's `initialize()` method.
-5. The validation occurs when the user clicks the ADD button.
+2. Make sure your IDE is configured with the correct JavaFX libraries
+3. Run the `RegexApplication` class to start the application
 
 ## Regular Expression Patterns
 
-- First & Last Name: `^[A-Za-z]{2,25}$`
-  - Must be 2-25 alphabetic characters
-  
-- Email: `^[A-Za-z0-9._%+-]+@farmingdale\.edu$`
-  - Must be a valid farmingdale.edu email address
-  
+The application uses the following regex patterns:
+- Names: `^[A-Za-z||']{2,25}$`
+- Email: `^[A-Za-z0-9._%+-]+@farmingdale\\.edu$`
 - Date of Birth: `^\\d{2}/\\d{2}/\\d{4}$`
-  - Must be in MM/DD/YYYY format
-  
 - Zip Code: `^\\d{5}$`
-  - Must be exactly 5 digits
-
-## Contributing
-
-This project was created for CSC311 Module 6. For educational purposes only.
-
-## License
-
-[Specify your license here if applicable]
