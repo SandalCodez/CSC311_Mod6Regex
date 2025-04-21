@@ -31,6 +31,8 @@ public class RegexController {
     @FXML
     private Label zipCodeErrorLabel;
     @FXML
+    private Label successLabel;
+    @FXML
     private Button addBtn;
 
     private Pattern firstnameRegex;
@@ -52,11 +54,17 @@ public class RegexController {
      */
     @FXML
     public void initialize() {
+        //both name patterns check for starting upper case character and allow for apostrophes!
+        firstnameRegex = Pattern.compile("^[A-Za-z||']{2,25}$");
+        lastNameRegex = Pattern.compile("^[A-Za-z||']{2,25}$");
 
-        firstnameRegex = Pattern.compile("^[A-Za-z]{2,25}$");
-        lastNameRegex = Pattern.compile("^[A-Za-z]{2,25}$");
+        //email pattern doesnt allow for numbers to start and end in farmingdale.edu
         emailRegex = Pattern.compile("^[A-Za-z0-9._%+-]+@farmingdale\\.edu$");
+
+        //can only be MM/DD/YYYY
         dateOfBirthRegex = Pattern.compile("^\\d{2}/\\d{2}/\\d{4}$");
+
+        //only 5 digit zipcodes
         zipCodeRegex = Pattern.compile("^\\d{5}$");
 
         formManager();
@@ -66,7 +74,7 @@ public class RegexController {
     }
 
     /**
-     * this method handles the event of clicking the addBtn.
+     * This method handles the event of clicking the addBtn.
      * @param event The clicking of addBtn
      */
     @FXML
@@ -75,6 +83,7 @@ public class RegexController {
         System.out.println("Add button clicked");
         if (formCheck && fieldFilledCount >= 4) {
             System.out.println("Form Filled");
+            successLabel.setText("Form Filled");
         }
 
     }

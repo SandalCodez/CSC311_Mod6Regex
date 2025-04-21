@@ -4,6 +4,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
@@ -149,6 +150,16 @@
          </HBox.margin>
          <children>
             <Button fx:id="addBtn" layoutX="-82.0" layoutY="182.0" mnemonicParsing="false" onAction="#handleAddBtn" prefHeight="37.0" prefWidth="127.0" text="ADD" />
+<!--            <ImageView fitHeight="133.0" fitWidth="139.0" layoutX="-88.0" layoutY="28.0" pickOnBounds="true" preserveRatio="true">-->
+<!--               <image>-->
+<!--&lt;!&ndash;                  <Image url="@images/thumbs-up-icon-31142.png" />&ndash;&gt;-->
+<!--               </image>-->
+<!--            </ImageView>-->
+            <Label fx:id="successLabel" alignment="CENTER" layoutX="-81.0" layoutY="227.0" prefHeight="17.0" prefWidth="127.0">
+               <font>
+                  <Font name="Book Antiqua" size="18.0" />
+               </font>
+            </Label>
          </children>
       </Pane>
    </children>
